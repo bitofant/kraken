@@ -1,0 +1,19 @@
+body {
+	font-family: Helvetica, 'Segoe UI', Arial, sans-serif;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+td, th {
+	border: 1px solid #ddd;
+	background: #eee;
+	padding: .2em .5em .2em .5em;
+	text-align: center;
+}
+
+th {
+	font-size: 120%;
+	font-weight: bold;
+}

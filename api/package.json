@@ -1,0 +1,16 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "jte",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.2",
+    "kraken-api": "^1.0.0",
+    "mongodb": "^2.2.33"
+  }
+}
