@@ -23,6 +23,7 @@ var lastValues = {};
 
 const MongoClient = require ('mongodb').MongoClient;
 MongoClient.connect (MONGO_URL, (err, db) => {
+	if (err) throw err;
 	var to = 0;
 	var coll = db.collection ('ticker');
 
