@@ -1,0 +1,36 @@
+version: '2'
+
+##############################################
+#                                            #
+#   Kraken Docker Stack                      #
+#                                            #
+##############################################
+
+services:
+  db:
+    image: mongo
+    hostname: mongo
+    ports:
+      - "27017:27017"
+    networks:
+      - kraken
+
+  ticker:
+    build: 
+      context: api
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    networks:
+      - frontend
+    environment:
+      - HTTP_PORT=8070
+      - QUIET=true
+
+# volumes:
+#   kraken-datastore:
+#     external:
+#       name: kraken-datastore
+
+networks:
+  frontend:
