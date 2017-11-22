@@ -4,10 +4,11 @@ body {
 
 table {
 	border-collapse: collapse;
+	box-shadow: 0 0 .5em rgba(0,0,0,.4);
 }
 
 td, th {
-	border: 1px solid #ddd;
+	border: 1px solid #666;
 	background: #eee;
 	padding: .2em .5em .2em .5em;
 	text-align: center;
@@ -16,4 +17,23 @@ td, th {
 th {
 	font-size: 120%;
 	font-weight: bold;
+}
+
+tr:first-child th:first-child {
+	background: #bbb;
+}
+
+.column-0, .column-1 {
+}
+
+.column-2, .column-3, .column-4 {
+	background: rgb(238, 200, 200);
+}
+
+.column-7, .column-5, .column-6 {
+	background: rgb(200, 213, 238);
+}
+
+.column-10, .column-8, .column-9 {
+	background: rgb(200, 238, 200);
 }
