@@ -1,4 +1,5 @@
 var timer;
+var SERVER_TIME = Date.now ();
 
 var wrapper = null;
 elem ({
@@ -78,9 +79,10 @@ function refresh () {
 	ajax.get ('last-values', (err, result) => {
 		if (err) console.log (err);
 		else {
-			for (var curr in result) {
+			SERVER_TIME = result.serverTime;
+			for (var curr in result.values) {
 				if (!currencies[curr]) currencies[curr] = new Currency (curr);
-				currencies[curr].update (result[curr]);
+				currencies[curr].update (result.values[curr]);
 			}
 		}
 		window.requestAnimationFrame (() => {

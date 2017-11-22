@@ -79,7 +79,10 @@ if (HTTP_PORT) {
 	var app = express ();
 	app.use (express.static ('httpdocs'));
 	app.get ('/last-values', (req, res) => {
-		res.json (lastValues);
+		res.json ({
+			serverTime: Date.now (),
+			values: lastValues
+		});
 	});
 	app.listen (HTTP_PORT, () => {
 		if (DO_PRINT) console.log ('Server listening on Port ' + HTTP_PORT);
