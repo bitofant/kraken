@@ -56,7 +56,7 @@ function Currency (name) {
 		appendTo: wrapper
 	})
 	this.update = values => {
-		var delta = ('' + Math.round ((Date.now () - values.time) / 100) / 10).split ('.');
+		var delta = ('' + Math.round ((SERVER_TIME - values.time) / 100) / 10).split ('.');
 		if (delta.length === 1) delta.push ('0');
 		timr.innerText = delta.join ('.') + ' seconds';
 		if (JSON.stringify (values) === currentValues) return;
