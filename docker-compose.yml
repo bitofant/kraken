@@ -22,9 +22,10 @@ services:
     depends_on:
       - db
     networks:
-      - frontend
+      - kraken
     environment:
       - HTTP_PORT=8070
+      - MONGO_HOST=mongo
       - QUIET=true
 
 # volumes:
@@ -33,4 +34,4 @@ services:
 #       name: kraken-datastore
 
 networks:
-  frontend:
+  kraken:

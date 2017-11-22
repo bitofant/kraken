@@ -2,7 +2,7 @@ const CurrencyRetriever = require ('./currency-retriever');
 const currencies = CurrencyRetriever.currencies;
 
 const MONGO_CONFIG = {
-	host: 'localhost',
+	host: process.env.MONGO_HOST || 'localhost',
 	port: 27017,
 	db: 'kraken'
 };
