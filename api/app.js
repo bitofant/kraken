@@ -18,7 +18,7 @@ if (DO_PRINT) {
 }
 
 
-var lastValues = {};
+var lastValues = {}, numDocuments = 0;
 
 
 const MongoClient = require ('mongodb').MongoClient;
@@ -56,6 +56,12 @@ MongoClient.connect (MONGO_URL, (err, db) => {
 		}), (to++) * 1000;
 	});
 
+	setInterval (() => {
+		coll.count ({}, (err, n) => {
+			if (typeof (n) === 'number') numDocuments = n;
+		});
+	}, 60 * 1000)
+
 });
 
 function exportableValues (currency, values, delta) {
@@ -81,6 +87,7 @@ if (HTTP_PORT) {
 	app.get ('/last-values', (req, res) => {
 		res.json ({
 			serverTime: Date.now (),
+			numDocuments: numDocuments,
 			values: lastValues
 		});
 	});

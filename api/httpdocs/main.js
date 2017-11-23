@@ -40,6 +40,17 @@ elem ({
 	appendTo: document.body
 });
 
+var numDocs = elem ({ tag: 'span' });
+elem ({
+	innerText: 'Document count in MongoDB: ',
+	style: {
+		marginTop: '1em',
+		color: '#aaa'
+	},
+	children: [ numDocs ],
+	appendTo: document.body
+})
+
 var currencies = {};
 
 function Currency (name) {
@@ -112,6 +123,7 @@ function refresh () {
 		if (err) console.log (err);
 		else {
 			SERVER_TIME_OFFSET = result.serverTime - Date.now ();
+			numDocs.innerText = result.numDocuments;
 			SORTED_CURRENCIES.forEach (curr => {
 				if (!result.values[curr]) return;
 				if (!currencies[curr]) currencies[curr] = new Currency (curr);
