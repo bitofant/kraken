@@ -15,8 +15,8 @@ MongoClient.connect (MONGO_ORIGIN, (err, origin_db) => {
 	MongoClient.connect (MONGO_DESTINATION, (err, dest_db) => {
 		if (err) throw err;
 
-		origin_db.collections (collections => {
-			console.log (collections);
+		origin_db.collection ('ticker').count ({}, n => {
+			console.log ('Entries: ' + n);
 		});
 
 	});
