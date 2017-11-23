@@ -7,9 +7,9 @@ version: '2'
 ##############################################
 
 services:
-  db:
+  mongodb:
     image: mongo
-    hostname: mongo
+    hostname: mongodb
     ports:
       - "27017:27017"
     networks:
@@ -20,14 +20,14 @@ services:
       context: api
       dockerfile: Dockerfile
     depends_on:
-      - db
+      - mongodb
     ports:
       - "8070:8070"
     networks:
       - kraken
     environment:
       - HTTP_PORT=8070
-      - MONGO_HOST=mongo
+      - MONGO_HOST=mongodb
       - QUIET=true
 
 # volumes:
