@@ -21,6 +21,8 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - db
+    ports:
+      - "8070:8070"
     networks:
       - kraken
     environment:
