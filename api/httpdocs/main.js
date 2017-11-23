@@ -1,5 +1,5 @@
 var timer;
-var SERVER_TIME = Date.now ();
+var SERVER_TIME_OFFSET = 0;
 
 var wrapper = null;
 elem ({
@@ -43,7 +43,7 @@ elem ({
 var currencies = {};
 
 function Currency (name) {
-	var currentValues = '';
+	var currentValues = '', lastRequestTime = 0;
 	var elems = {}, timr = null;
 	var croot = elem ({
 		tag: 'tr',
@@ -60,11 +60,16 @@ function Currency (name) {
 			})
 		],
 		appendTo: wrapper
-	})
-	this.update = values => {
-		var delta = ('' + Math.round ((SERVER_TIME - values.time) / 100) / 10).split ('.');
+	});
+
+	this.updateTimr = () => {
+		var delta = ('' + Math.round ((Date.now () + SERVER_TIME_OFFSET - lastRequestTime) / 100) / 10).split ('.');
 		if (delta.length === 1) delta.push ('0');
 		timr.innerText = delta.join ('.') + ' seconds';
+	};
+
+	this.update = values => {
+		lastRequestTime = values.time;
 		if (JSON.stringify (values) === currentValues) return;
 		currentValues = JSON.stringify (values);
 		values.lastTradeVolume = eur (values.lastTradePrice * values.lastTradeAmount);
@@ -87,13 +92,26 @@ function Currency (name) {
 	};
 }
 
+
+function refreshTimrs () {
+	for (var k in currencies) {
+		currencies[k].updateTimr ();
+	}
+	setTimeout (nextRefreshTimrs, 50);
+}
+function nextRefreshTimrs () {
+	window.requestAnimationFrame (refreshTimrs);
+}
+refreshTimrs ();
+
+
 var SORTED_CURRENCIES = ['XBT', 'BCH', 'DASH', 'ZEC', 'LTC', 'ETC', 'XRP'];
 
 function refresh () {
 	ajax.get ('last-values', (err, result) => {
 		if (err) console.log (err);
 		else {
-			SERVER_TIME = result.serverTime;
+			SERVER_TIME_OFFSET = result.serverTime - Date.now ();
 			SORTED_CURRENCIES.forEach (curr => {
 				if (!result.values[curr]) return;
 				if (!currencies[curr]) currencies[curr] = new Currency (curr);
@@ -101,7 +119,7 @@ function refresh () {
 			});
 		}
 		window.requestAnimationFrame (() => {
-			timer = setTimeout (refresh, 300 + Math.random () * 400 | 0);
+			timer = setTimeout (refresh, 400);
 		});
 	});
 }
