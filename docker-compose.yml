@@ -14,6 +14,8 @@ services:
       - "27017:27017"
     networks:
       - kraken
+    volumes:
+      - kraken-datastore:/data/db
 
   ticker:
     build: 
@@ -30,10 +32,10 @@ services:
       - MONGO_HOST=mongodb
       - QUIET=true
 
-# volumes:
-#   kraken-datastore:
-#     external:
-#       name: kraken-datastore
+volumes:
+  kraken-datastore:
+    external:
+      name: kraken-datastore
 
 networks:
   kraken:
