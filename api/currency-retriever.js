@@ -1,3 +1,4 @@
+const assets = require ('./assets');
 const krakenApi = require ('kraken-api');
 const client = new krakenApi ('', '');
 
@@ -7,7 +8,9 @@ const client = new krakenApi ('', '');
  * @param {'XBT'|'BCH'|'XRP'|'DASH'|'ZEC'|'LTC'|'ETC'} currency 
  */
 function CurrencyRetriever (currency, interval, onupdate) {
-	var pair = 'X' + currency + 'ZEUR';
+	var pair = getCurrencyID (currency) + assets.reverseLookup.EUR;
+	if (pair === 'BCH' + 'ZEUR') pair = 'BCH' + 'EUR';
+	else if (pair === 'DASH' + 'ZEUR') pair = 'DASH' + 'EUR';
 
 	var timer = setInterval (() => {
 		var t1 = Date.now ();
@@ -28,14 +31,20 @@ function CurrencyRetriever (currency, interval, onupdate) {
 
 }
 
+function getCurrencyID (name) {
+	if (assets.reverseLookup[name]) return assets.reverseLookup[name];
+	if (assets[name]) return name;
+	throw Error ('Unable to find asset id "' + name + '"');
+}
+
 const currencies = ['XBT', 'BCH', 'DASH', 'ZEC', 'LTC', 'ETC', 'XRP'];
 CurrencyRetriever.currencies = currencies;
-CurrencyRetriever.XBT = 'XBT';
-CurrencyRetriever.BCH = 'BCH';
-CurrencyRetriever.DASH = 'DASH';
-CurrencyRetriever.ZEC = 'ZEC';
-CurrencyRetriever.LTC = 'LTC';
-CurrencyRetriever.ETC = 'ETC';
-CurrencyRetriever.XRP = 'XRP';
+CurrencyRetriever.XBT = assets.reverseLookup.XBT;
+CurrencyRetriever.BCH = assets.reverseLookup.BCH;
+CurrencyRetriever.DASH = assets.reverseLookup.DASH;
+CurrencyRetriever.ZEC = assets.reverseLookup.ZEC;
+CurrencyRetriever.LTC = assets.reverseLookup.LTC;
+CurrencyRetriever.ETC = assets.reverseLookup.ETC;
+CurrencyRetriever.XRP = assets.reverseLookup.XRP;
 
 module.exports = CurrencyRetriever;
