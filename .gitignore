@@ -1,0 +1,5 @@
+**/node_modules/
+**/dist/
+_deprecated/
+credentials.json
+esauth.json
